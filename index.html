@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Cafe Saphinar — Coffee, Kitchen &amp; Tables</title>
+
+<meta name="description" content="Cafe Saphinar is a slow-roast coffee house and all-day kitchen. Browse the menu, order to your table, and book an hour in the dining room." />
+<meta name="theme-color" content="#17100b" />
+<meta name="author" content="Cafe Saphinar" />
+<link rel="canonical" href="https://cafesaphinar.pages.dev/" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Cafe Saphinar" />
+<meta property="og:title" content="Cafe Saphinar — Coffee, Kitchen &amp; Tables" />
+<meta property="og:description" content="Slow-roast coffee, an all-day kitchen, and a dining room worth reserving. Order from the menu or book a table in seconds." />
+<meta property="og:url" content="https://cafesaphinar.pages.dev/" />
+<meta property="og:image" content="https://cafesaphinar.pages.dev/og-image.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Cafe Saphinar" />
+<meta name="twitter:description" content="Coffee, kitchen and tables. Order from the menu, book an hour." />
+<meta name="twitter:image" content="https://cafesaphinar.pages.dev/og-image.jpg" />
+
+<!-- Favicon: a coffee cup, inline so it ships with the HTML -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%2317100b'/%3E%3Cg fill='none' stroke='%23e8b96b' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 27h24v14a9 9 0 0 1-9 9h-6a9 9 0 0 1-9-9z'/%3E%3Cpath d='M41 31h5a5 5 0 0 1 0 10h-5'/%3E%3Cpath d='M23 15c0 3-3 4-3 7M31 14c0 3-3 4-3 7'/%3E%3C/g%3E%3C/svg%3E" />
+
+<!-- Typography: Fraunces (vintage display serif) + Inter (body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="style.css" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CafeOrCoffeeShop",
+  "name": "Cafe Saphinar",
+  "servesCuisine": ["Coffee", "Continental", "Indian", "Bakery"],
+  "priceRange": "₹₹",
+  "image": "https://cafesaphinar.pages.dev/og-image.jpg",
+  "url": "https://cafesaphinar.pages.dev/",
+  "telephone": "+91 44 4000 2211",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "12 Saphinar Lane, T. Nagar",
+    "addressLocality": "Chennai",
+    "addressRegion": "Tamil Nadu",
+    "postalCode": "600017",
+    "addressCountry": "IN"
+  },
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "11:00",
+    "closes": "22:00"
+  }]
+}
+</script>
+</head>
+
+<body>
+<a class="skip-link" href="#menu">Skip to the menu</a>
+
+<!-- ────────────────── warm light / steam canvas backdrop ────────────────── -->
+<canvas id="steam" aria-hidden="true"></canvas>
+<div class="room-overlay" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ───────────────────────────── navigation ───────────────────────────── -->
+<header class="nav" id="nav">
+  <div class="nav__inner container">
+    <a class="brand" href="#top" aria-label="Cafe Saphinar — home">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" width="36" height="36">
+          <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 27h24v14a9 9 0 0 1-9 9h-6a9 9 0 0 1-9-9z" />
+            <path d="M41 31h5a5 5 0 0 1 0 10h-5" />
+            <path d="M23 15c0 3-3 4-3 7M31 14c0 3-3 4-3 7" />
+          </g>
+        </svg>
+      </span>
+      <span class="brand__word">
+        <strong>Cafe Saphinar</strong>
+        <em>Coffee · Kitchen · Tables</em>
+      </span>
+    </a>
+
+    <nav class="nav__links" id="navLinks" aria-label="Primary">
+      <a href="#menu">Menu</a>
+      <a href="#reserve">Reservations</a>
+      <a href="#visit">Visit</a>
+      <a class="nav__admin" href="#admin" id="adminLink" title="Staff dashboard">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="4" y="10" width="16" height="10" rx="2.5" /><path d="M8 10V7a4 4 0 0 1 8 0v3" />
+        </svg>
+        <span>Staff</span>
+      </a>
+    </nav>
+
+    <!-- Outside the mobile panel on purpose: your order must be reachable
+         at all times, on every screen size. -->
+    <button class="btn btn--primary btn--sm nav__cart" id="cartBtn" type="button" aria-haspopup="dialog">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 4h2.2l2.2 11h9.8l2-7H6.4" /><circle cx="9.5" cy="19" r="1.5" /><circle cx="17.5" cy="19" r="1.5" />
+      </svg>
+      <span class="nav__cart-label">Table order</span>
+      <span class="cart-pill" id="cartCount">0</span>
+    </button>
+
+    <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+<main id="main">
+
+  <!-- ══════════════════════════════ HERO ══════════════════════════════ -->
+  <section class="hero" id="top">
+    <div class="hero__inner container">
+      <p class="eyebrow" data-reveal>
+        <span class="eyebrow__line" aria-hidden="true"></span>
+        Est. 2024 · T. Nagar, Chennai
+      </p>
+
+      <h1 class="hero__title" data-reveal style="--d:60ms">
+        Slow coffee,<br />
+        <em>long afternoons</em>,<br />
+        a table kept warm.
+      </h1>
+
+      <p class="hero__lede" data-reveal style="--d:140ms">
+        Cafe Saphinar is a coffee house and all-day kitchen in the middle of the city.
+        Dark wood, brass light, filter coffee at eleven and brownies at midnight.
+        Order from your phone, or reserve the hour that suit you.
+      </p>
+
+      <div class="hero__actions" data-reveal style="--d:200ms">
+        <a class="btn btn--primary" href="#menu">Browse the menu
+          <svg class="btn__arrow" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7" /></svg>
+        </a>
+        <a class="btn btn--ghost" href="#reserve">Reserve a table</a>
+      </div>
+
+      <div class="hero__card glass" data-reveal style="--d:260ms">
+        <div class="hero__card-row">
+          <span class="hero__card-k">Open daily</span>
+          <span class="hero__card-v" id="heroHours">11:00 — 22:00</span>
+        </div>
+        <div class="hero__card-row">
+          <span class="hero__card-k">Today</span>
+          <span class="hero__card-v" id="heroToday">—</span>
+        </div>
+        <div class="hero__card-row">
+          <span class="hero__card-k">Walk-ins</span>
+          <span class="hero__card-v">Always welcome</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__scroll" aria-hidden="true">
+      <span class="hero__scroll-line"></span>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ SIGNATURE STRIP ══════════════════════════ -->
+  <div class="strip" aria-hidden="true">
+    <div class="strip__track">
+      <span>Single-origin filter</span><i></i><span>Hand-poured</span><i></i><span>Baked in house</span><i></i>
+      <span>Filter coffee · 90</span><i></i><span>All-day breakfast</span><i></i><span>No rush, no queue</span><i></i>
+      <span>Single-origin filter</span><i></i><span>Hand-poured</span><i></i><span>Baked in house</span><i></i>
+      <span>Filter coffee · 90</span><i></i><span>All-day breakfast</span><i></i><span>No rush, no queue</span><i></i>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ MENU ═══════════════════════════════ -->
+  <section class="section" id="menu">
+    <div class="container">
+      <header class="section__head">
+        <p class="eyebrow" data-reveal><span class="eyebrow__line" aria-hidden="true"></span>The menu</p>
+        <h2 class="section__title" data-reveal style="--d:60ms">Everything on the <em>counter</em>.</h2>
+        <p class="section__lede" data-reveal style="--d:120ms">
+          Tap any dish to add it to your table order. Prices are in rupees, taxes included,
+          and nothing on this menu is ever out of season for long.
+        </p>
+      </header>
+
+      <div class="menu-bar" data-reveal style="--d:150ms">
+        <div class="chips" id="menuFilters" role="tablist" aria-label="Menu categories"></div>
+        <label class="search">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m16.5 16.5 4 4" /></svg>
+          <input type="search" id="menuSearch" placeholder="Search the menu…" aria-label="Search the menu" autocomplete="off" />
+        </label>
+      </div>
+
+      <div class="menu-grid" id="menuGrid" aria-live="polite"></div>
+
+      <p class="menu-empty" id="menuEmpty" hidden>
+        Nothing matches that. Try another word — or <button type="button" class="linklike" data-open-cart>see your order</button>.
+      </p>
+
+      <p class="menu-loading" id="menuLoading">Setting the tables…</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ RESERVATIONS ══════════════════════════ -->
+  <section class="section section--tinted" id="reserve">
+    <div class="container reserve__grid">
+      <div class="reserve__copy">
+        <p class="eyebrow" data-reveal><span class="eyebrow__line" aria-hidden="true"></span>Reservations</p>
+        <h2 class="section__title" data-reveal style="--d:60ms">Book an <em>hour</em> with us.</h2>
+        <p class="section__lede" data-reveal style="--d:120ms">
+          We hold each hour for one party, so the room never feels crowded and your table is
+          never given away. Pick a day, pick an hour that is still open, and it is yours.
+        </p>
+
+        <ul class="reserve__notes" data-reveal style="--d:180ms">
+          <li><span aria-hidden="true">01</span> Booked hours disappear from this list instantly.</li>
+          <li><span aria-hidden="true">02</span> Tables are held for 20 minutes past your hour.</li>
+          <li><span aria-hidden="true">03</span> Need to change plans? Call us and we will free the hour.</li>
+        </ul>
+
+        <div class="legend" data-reveal style="--d:220ms">
+          <span class="legend__item"><i class="dot dot--open" aria-hidden="true"></i> Available</span>
+          <span class="legend__item"><i class="dot dot--taken" aria-hidden="true"></i> Booked</span>
+          <span class="legend__item"><i class="dot dot--pick" aria-hidden="true"></i> Your pick</span>
+        </div>
+      </div>
+
+      <div class="reserve__panel glass" data-reveal style="--d:160ms">
+        <div class="panel__head">
+          <div>
+            <h3>Reserve the dining room</h3>
+            <p id="reserveDateLabel">Choose a date to see the timetable</p>
+          </div>
+          <label class="datepick">
+            <span>Date</span>
+            <input type="date" id="resDate" aria-label="Reservation date" />
+          </label>
+        </div>
+
+        <div class="slots" id="slotGrid" aria-live="polite">
+          <p class="slots__loading">Checking the room…</p>
+        </div>
+
+        <form class="rform" id="resForm" novalidate>
+          <div class="rform__row">
+            <div class="field">
+              <input id="resName" name="name" type="text" placeholder=" " autocomplete="name" required maxlength="80" aria-describedby="resNameErr" />
+              <label for="resName">Your name <span class="req">*</span></label>
+              <span class="field__error" id="resNameErr"></span>
+            </div>
+            <div class="field">
+              <input id="resPhone" name="phone" type="tel" placeholder=" " inputmode="tel" autocomplete="tel" required maxlength="24" aria-describedby="resPhoneErr" />
+              <label for="resPhone">Phone number <span class="req">*</span></label>
+              <span class="field__error" id="resPhoneErr"></span>
+            </div>
+          </div>
+
+          <div class="rform__row">
+            <div class="field">
+              <select id="resSize" name="size" aria-label="Party size">
+                <option value="1">1 guest</option>
+                <option value="2" selected>2 guests</option>
+                <option value="3">3 guests</option>
+                <option value="4">4 guests</option>
+                <option value="5">5 guests</option>
+                <option value="6">6 guests</option>
+                <option value="8">8 guests</option>
+                <option value="10">10 guests</option>
+                <option value="12">12 guests</option>
+              </select>
+              <label for="resSize" class="label--static">Party size</label>
+            </div>
+            <div class="field">
+              <input id="resNotes" name="notes" type="text" placeholder=" " maxlength="140" />
+              <label for="resNotes">Occasion / notes <span class="opt">(optional)</span></label>
+            </div>
+          </div>
+
+          <p class="rform__pick" id="resPick">No hour selected yet</p>
+
+          <button class="btn btn--primary btn--block" type="submit" id="resSubmit" disabled>
+            <span class="btn__label">Hold this hour</span>
+            <span class="btn__spinner" aria-hidden="true"></span>
+          </button>
+          <p class="form__status" id="resStatus" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="ticket" id="resTicket" hidden>
+          <div class="ticket__perf" aria-hidden="true"></div>
+          <p class="ticket__kicker">Table held</p>
+          <p class="ticket__code" id="ticketCode">SAPH-0000</p>
+          <p class="ticket__line" id="ticketLine">—</p>
+          <p class="ticket__note">Show this code at the counter. We will hold your table for 20 minutes past the hour.</p>
+          <button class="btn btn--ghost btn--sm" type="button" id="ticketReset">Book another hour</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ VISIT ═══════════════════════════════ -->
+  <section class="section" id="visit">
+    <div class="container">
+      <header class="section__head">
+        <p class="eyebrow" data-reveal><span class="eyebrow__line" aria-hidden="true"></span>Visit</p>
+        <h2 class="section__title" data-reveal style="--d:60ms">Find the <em>warm</em> window.</h2>
+      </header>
+
+      <div class="visit__grid">
+        <article class="visit__card glass" data-reveal>
+          <h3>Address</h3>
+          <p>12 Saphinar Lane,<br />T. Nagar, Chennai 600017</p>
+          <a class="visit__link" href="https://maps.google.com/?q=T.%20Nagar%2C%20Chennai" target="_blank" rel="noopener">Open in Maps ↗</a>
+        </article>
+
+        <article class="visit__card glass" data-reveal style="--d:80ms">
+          <h3>Hours</h3>
+          <ul class="hours">
+            <li><span>Monday — Thursday</span><span>11:00 — 22:00</span></li>
+            <li><span>Friday — Saturday</span><span>11:00 — 23:00</span></li>
+            <li><span>Sunday</span><span>10:00 — 22:00</span></li>
+          </ul>
+        </article>
+
+        <article class="visit__card glass" data-reveal style="--d:160ms">
+          <h3>Talk to us</h3>
+          <p><a href="tel:+914440002211">+91 44 4000 2211</a><br /><a href="mailto:hello@cafesaphinar.in">hello@cafesaphinar.in</a></p>
+          <p class="visit__small">For parties larger than 12, call ahead and we will rearrange the room.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <span class="brand__mark brand__mark--sm" aria-hidden="true">
+        <svg viewBox="0 0 64 64" width="28" height="28">
+          <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 27h24v14a9 9 0 0 1-9 9h-6a9 9 0 0 1-9-9z" /><path d="M41 31h5a5 5 0 0 1 0 10h-5" />
+          </g>
+        </svg>
+      </span>
+      <p><strong>Cafe Saphinar</strong><br /><span>Coffee, kitchen and tables since 2024.</span></p>
+    </div>
+    <nav class="footer__links" aria-label="Footer">
+      <a href="#menu">Menu</a>
+      <a href="#reserve">Reservations</a>
+      <a href="#visit">Visit</a>
+      <a href="#admin">Staff</a>
+    </nav>
+    <p class="footer__legal">© <span id="year">2026</span> Cafe Saphinar. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- ═════════════════════════════ CART DRAWER ═════════════════════════════ -->
+<div class="drawer-backdrop" id="cartBackdrop" hidden></div>
+<aside class="drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="cartTitle" hidden>
+  <header class="drawer__head">
+    <div>
+      <h2 id="cartTitle">Your table order</h2>
+      <p id="cartMeta">Nothing added yet</p>
+    </div>
+    <button class="icon-btn" type="button" id="cartClose" aria-label="Close order">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+    </button>
+  </header>
+
+  <div class="drawer__body">
+    <ul class="cart" id="cartItems"></ul>
+    <p class="cart__empty" id="cartEmpty">
+      Your tray is empty. Tap anything on the <a href="#menu" id="cartToMenu">menu</a> to start.
+    </p>
+
+    <form class="cform" id="checkoutForm" novalidate hidden>
+      <div class="cform__row">
+        <div class="field">
+          <input id="orderName" name="name" type="text" placeholder=" " autocomplete="name" required maxlength="80" aria-describedby="orderNameErr" />
+          <label for="orderName">Name <span class="req">*</span></label>
+          <span class="field__error" id="orderNameErr"></span>
+        </div>
+        <div class="field">
+          <input id="orderPhone" name="phone" type="tel" placeholder=" " inputmode="tel" autocomplete="tel" required maxlength="24" aria-describedby="orderPhoneErr" />
+          <label for="orderPhone">Phone <span class="req">*</span></label>
+          <span class="field__error" id="orderPhoneErr"></span>
+        </div>
+      </div>
+      <div class="cform__row">
+        <div class="field">
+          <input id="orderTable" name="table" type="text" placeholder=" " maxlength="12" />
+          <label for="orderTable">Table no. / takeaway</label>
+        </div>
+        <div class="field">
+          <input id="orderNote" name="notes" type="text" placeholder=" " maxlength="140" />
+          <label for="orderNote">Kitchen note <span class="opt">(optional)</span></label>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <footer class="drawer__foot">
+    <div class="cart__totals">
+      <span>Total</span>
+      <strong id="cartTotal">₹0</strong>
+    </div>
+    <button class="btn btn--primary btn--block" type="button" id="checkoutBtn" disabled>
+      <span class="btn__label">Send to the kitchen</span>
+      <span class="btn__spinner" aria-hidden="true"></span>
+    </button>
+    <p class="form__status" id="orderStatus" role="status" aria-live="polite"></p>
+  </footer>
+</aside>
+
+<!-- ════════════════════════ ADMIN DASHBOARD (hash route) ════════════════════ -->
+<section class="admin" id="admin" hidden aria-label="Staff dashboard">
+  <div class="admin__bar container">
+    <a class="brand brand--sm" href="#top">
+      <span class="brand__mark brand__mark--sm" aria-hidden="true">
+        <svg viewBox="0 0 64 64" width="26" height="26">
+          <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 27h24v14a9 9 0 0 1-9 9h-6a9 9 0 0 1-9-9z" /><path d="M41 31h5a5 5 0 0 1 0 10h-5" />
+          </g>
+        </svg>
+      </span>
+      <span class="brand__word"><strong>Staff console</strong><em>Cafe Saphinar</em></span>
+    </a>
+    <div class="admin__bar-actions">
+      <span class="admin__who" id="adminWho" hidden></span>
+      <button class="btn btn--ghost btn--sm" type="button" id="adminLogout" hidden>Sign out</button>
+      <a class="btn btn--ghost btn--sm" href="#top" id="adminExit">Back to site</a>
+    </div>
+  </div>
+
+  <!-- login -->
+  <div class="admin__login" id="adminLogin">
+    <form class="glass login-card" id="adminLoginForm" novalidate>
+      <p class="login-card__kicker">Restricted</p>
+      <h2>Staff sign-in</h2>
+      <p class="login-card__lede">Reservations, orders and the menu are managed from here.</p>
+
+      <div class="field">
+        <input id="adminUser" name="username" type="text" placeholder=" " autocomplete="username" required />
+        <label for="adminUser">Username</label>
+      </div>
+      <div class="field">
+        <input id="adminPass" name="password" type="password" placeholder=" " autocomplete="current-password" required />
+        <label for="adminPass">Password</label>
+      </div>
+
+      <button class="btn btn--primary btn--block" type="submit" id="adminLoginBtn">
+        <span class="btn__label">Enter the console</span>
+        <span class="btn__spinner" aria-hidden="true"></span>
+      </button>
+      <p class="form__status" id="adminLoginStatus" role="status" aria-live="polite"></p>
+      <p class="login-card__foot">Authorised staff only. Sessions expire after 6 hours.</p>
+    </form>
+  </div>
+
+  <!-- dashboard -->
+  <div class="admin__dash container" id="adminDash" hidden>
+    <div class="stats" id="adminStats"></div>
+
+    <div class="admin__toolbar">
+      <div class="tabs" id="adminTabs" role="tablist" aria-label="Dashboard sections">
+        <button class="tab is-active" role="tab" aria-selected="true" data-tab="timetable" type="button">Timetable</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="orders" type="button">Orders</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="menu" type="button">Menu</button>
+      </div>
+      <label class="datepick datepick--dark">
+        <span>Day</span>
+        <input type="date" id="adminDate" aria-label="Dashboard date" />
+      </label>
+    </div>
+
+    <!-- timetable -->
+    <div class="panel glass" id="panel-timetable" role="tabpanel">
+      <div class="panel__head">
+        <div>
+          <h3>Hour by hour</h3>
+          <p id="timetableLabel">—</p>
+        </div>
+        <button class="btn btn--ghost btn--sm" type="button" id="adminNewBooking">+ Book a table</button>
+      </div>
+      <div class="tt" id="timetable"></div>
+    </div>
+
+    <!-- orders -->
+    <div class="panel glass" id="panel-orders" role="tabpanel" hidden>
+      <div class="panel__head">
+        <div>
+          <h3>Kitchen orders</h3>
+          <p>Newest first · press a status to move an order along</p>
+        </div>
+        <button class="btn btn--ghost btn--sm" type="button" id="adminRefresh">Refresh</button>
+      </div>
+      <div class="orders" id="ordersList"></div>
+    </div>
+
+    <!-- menu manager -->
+    <div class="panel glass" id="panel-menu" role="tabpanel" hidden>
+      <div class="panel__head">
+        <div>
+          <h3>Menu</h3>
+          <p>Add, edit or remove anything the kitchen serves</p>
+        </div>
+        <button class="btn btn--ghost btn--sm" type="button" id="adminNewItem">+ New item</button>
+      </div>
+
+      <form class="mform" id="menuForm" hidden novalidate>
+        <input type="hidden" id="miId" />
+        <div class="mform__grid">
+          <div class="field"><input id="miName" type="text" placeholder=" " required maxlength="60" /><label for="miName">Item name</label></div>
+          <div class="field"><input id="miCategory" type="text" placeholder=" " required maxlength="30" list="categoryList" /><label for="miCategory">Category</label></div>
+          <div class="field"><input id="miPrice" type="number" placeholder=" " min="1" step="1" required /><label for="miPrice">Price (₹)</label></div>
+          <div class="field mform__wide"><input id="miDesc" type="text" placeholder=" " maxlength="160" /><label for="miDesc">Description</label></div>
+        </div>
+        <datalist id="categoryList"></datalist>
+        <div class="mform__actions">
+          <label class="check"><input type="checkbox" id="miAvailable" checked /> <span>Available today</span></label>
+          <button class="btn btn--primary btn--sm" type="submit">Save item</button>
+          <button class="btn btn--ghost btn--sm" type="button" id="menuFormCancel">Cancel</button>
+        </div>
+        <p class="form__status" id="menuStatus" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="mtable" id="menuTable"></div>
+    </div>
+  </div>
+
+  <!-- admin: manual booking dialog -->
+  <div class="modal" id="bookingModal" hidden>
+    <div class="modal__card glass" role="dialog" aria-modal="true" aria-labelledby="bookingModalTitle">
+      <header class="modal__head">
+        <h3 id="bookingModalTitle">Book a table</h3>
+        <button class="icon-btn" type="button" id="bookingModalClose" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+      </header>
+      <form id="adminBookingForm" novalidate>
+        <div class="field"><input id="abDate" type="date" required /><label class="label--static" for="abDate">Date</label></div>
+        <div class="field"><select id="abSlot" required></select><label class="label--static" for="abSlot">Hour</label></div>
+        <div class="field"><input id="abName" type="text" placeholder=" " required maxlength="80" /><label for="abName">Guest name</label></div>
+        <div class="field"><input id="abPhone" type="tel" placeholder=" " required maxlength="24" /><label for="abPhone">Phone</label></div>
+        <div class="field"><input id="abSize" type="number" min="1" max="20" value="2" required /><label class="label--static" for="abSize">Party size</label></div>
+        <div class="field"><input id="abNotes" type="text" placeholder=" " maxlength="140" /><label for="abNotes">Notes</label></div>
+        <button class="btn btn--primary btn--block" type="submit">Book this hour</button>
+        <p class="form__status" id="adminBookingStatus" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+<script src="script.js" defer></script>
+</body>
+</html>

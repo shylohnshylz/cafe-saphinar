@@ -1,0 +1,9 @@
+# Cafe Saphinar
+User-agent: *
+Allow: /
+
+# The staff console is a hash route on the same page (#admin). It is protected
+# by the Apps Script login, not by obscurity, but there is nothing to index.
+Disallow: /#admin
+
+Sitemap: https://cafesaphinar.pages.dev/sitemap.xml
